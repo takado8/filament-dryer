@@ -53,36 +53,36 @@ def run():
             aggregate_dew_point.clear()
         print(f'\n\ntemp in: {t}*C\nhumidity: {h}%\ndew point: {int(dew_point)}*C')
         print(f'\ntemp: {temp}*C')
-        # print(f'mode: {mode}\nnext mode: {next_mode}')
-        # if mode == ON and time_left <= 0:
-        #     print('Switching to neutral state 1')
-        #     peltier.turn_off_peltier()
-        #     fans.turn_off_fan1()
-        #     mode = OFF
-        #     next_mode = REVERSED
-        # elif mode == ON and time_left > 0:
-        #     print(f'time left: {time_left}')
-        # elif mode == OFF and next_mode == REVERSED and temp >= REVERSED_MIN_TEMP:
-        #     print('Switching to reversed state.')
-        #     fans.turn_on_fan2()
-        #     sleep(1)
-        #     peltier.turn_on_peltier_reversed()
-        #     mode = REVERSED
-        #     next_mode = OFF
-        #
-        # elif mode == REVERSED and temp >= REVERSED_MAX_TEMP:
-        #     print('Switching to neutral state 2')
-        #     peltier.turn_off_peltier()
-        #     mode = OFF
-        #     next_mode = ON
-        #
-        # elif mode == OFF and next_mode == ON and temp <= NORMAL_MAX_TEMP:
-        #     print('Switching on.')
-        #     fans.turn_off_fan2()
-        #     fans.turn_on_fan1()
-        #     peltier.turn_on_peltier_normal()
-        #     mode = ON
-        #     next_mode = OFF
-        #     mode_start_time = time()
+        print(f'mode: {mode}\nnext mode: {next_mode}')
+        if mode == ON and time_left <= 0:
+            print('Switching to neutral state 1')
+            peltier.turn_off_peltier()
+            fans.turn_off_fan1()
+            mode = OFF
+            next_mode = REVERSED
+        elif mode == ON and time_left > 0:
+            print(f'time left: {time_left}')
+        elif mode == OFF and next_mode == REVERSED and temp >= REVERSED_MIN_TEMP:
+            print('Switching to reversed state.')
+            fans.turn_on_fan2()
+            sleep(1)
+            peltier.turn_on_peltier_reversed()
+            mode = REVERSED
+            next_mode = OFF
+
+        elif mode == REVERSED and temp >= REVERSED_MAX_TEMP:
+            print('Switching to neutral state 2')
+            peltier.turn_off_peltier()
+            mode = OFF
+            next_mode = ON
+
+        elif mode == OFF and next_mode == ON and temp <= NORMAL_MAX_TEMP:
+            print('Switching on.')
+            fans.turn_off_fan2()
+            fans.turn_on_fan1()
+            peltier.turn_on_peltier_normal()
+            mode = ON
+            next_mode = OFF
+            mode_start_time = time()
 
         sleep(SLEEP_TIME)
