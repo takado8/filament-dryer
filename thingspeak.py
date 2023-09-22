@@ -1,24 +1,22 @@
-import network
 import urequests
 import ujson
-from time import sleep
 from config import load_config
 
 
-api_key, ssid, password = load_config()
+api_key, _, _ = load_config()
 
-# Connect to Wi-Fi
-wifi = network.WLAN(network.STA_IF)
-wifi.active(True)
-wifi.connect(ssid, password)
-
-# Wait for the Wi-Fi connection to be established
-while not wifi.isconnected():
-    print('Waiting for connection...')
-    sleep(1)
-
-ip = wifi.ifconfig()[0]
-print(f'Connected on {ip}')
+# # Connect to Wi-Fi
+# wifi = network.WLAN(network.STA_IF)
+# wifi.active(True)
+# wifi.connect(ssid, password)
+#
+# # Wait for the Wi-Fi connection to be established
+# while not wifi.isconnected():
+#     print('Waiting for connection...')
+#     sleep(1)
+#
+# ip = wifi.ifconfig()[0]
+# print(f'Connected on {ip}')
 
 
 def send_data(value1, value2, value3, value4):

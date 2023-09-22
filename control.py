@@ -6,8 +6,9 @@ from dht11 import get_temp_and_humidity, get_dew_point
 from thingspeak import send_data
 
 
-COLD_MODE_DURATION = 60 * 30
-REVERSED_MODE_DURATION = 60 * 4
+# cold_mode_duration = 60 * 30
+# reversed_mode_duration = 60 * 4
+
 AVERAGE_LEN = 10
 SLEEP_TIME = 6
 OFF = 'OFF'
@@ -27,7 +28,7 @@ def get_time_left(mode_duration, mode_start_time):
     return mode_duration - round(time() - mode_start_time)
 
 
-def run():
+def run(cold_mode_duration, reversed_mode_duration, cycles):
     mode = OFF
     next_mode = ON
     on_cool_down = False
@@ -36,12 +37,13 @@ def run():
     aggregate_temp_in = []
     aggregate_humidity = []
     aggregate_dew_point = []
-
-    while True:
+    i = 0
+    while i < cycles:
+        print(f'\nCycle: {i+1}/{cycles}')
         if mode == ON:
-            time_left = get_time_left(COLD_MODE_DURATION, mode_start_time)
+            time_left = get_time_left(cold_mode_duration, mode_start_time)
         elif mode == REVERSED:
-            time_left = get_time_left(REVERSED_MODE_DURATION, mode_start_time)
+            time_left = get_time_left(reversed_mode_duration, mode_start_time)
         else:
             time_left = None
         temp = ds.get_temp()
@@ -95,7 +97,9 @@ def run():
             peltier.turn_off_peltier()
             mode = OFF
             next_mode = ON
-
+            i += 1
+            if i == cycles:
+                fans.turn_off_fan2()
         elif mode == OFF and next_mode == ON and temp <= NORMAL_MAX_TEMP:
             print('Switching on.')
             fans.turn_off_fan2()
